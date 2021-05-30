@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -18,9 +19,23 @@ namespace OutboxService
             _logger = logger;
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                var items = await _pollingQueue.DequeueAsync(cancellationToken);
+                foreach (var item in items)
+                {
+                    try
+                    {
+                        await _outboxDispatcher.DispatchAsync(item);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex.Message, ex);
+                    }
+                }
+            }
         }
     }
 }

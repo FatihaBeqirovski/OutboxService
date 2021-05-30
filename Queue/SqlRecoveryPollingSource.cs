@@ -6,7 +6,7 @@ using OutboxService.Entities;
 
 namespace OutboxService.Queue
 {
-    public class SqlPollingSource : ISqlPollingSource
+    public class SqlRecoveryPollingSource : ISqlRecoveryPollingSource
     {
         private readonly IDbConnectionFactory _dbConnectionFactory;
         private readonly IRepositoryConfiguration _repositoryConfiguration;
@@ -19,7 +19,7 @@ namespace OutboxService.Queue
             StatusId = 2, 
             PickedDate = SYSDATETIME()
         OUTPUT Inserted.Id INTO @Ids
-        WHERE StatusId = 1
+        WHERE StatusId = 2 AND PickedDate < DATEADD(MS, -{2}, SYSDATETIME())
 
         SELECT 
             Id,
@@ -28,10 +28,11 @@ namespace OutboxService.Queue
             Body, 
             Exchange,
             DeliveryCount
-        FROM {1}
+        FROM {1} 
         WHERE Id IN (SELECT Id FROM @Ids)";
-        
-        public SqlPollingSource(IDbConnectionFactory dbConnectionFactory, IRepositoryConfiguration repositoryConfiguration)
+
+        public SqlRecoveryPollingSource(IDbConnectionFactory dbConnectionFactory,
+            IRepositoryConfiguration repositoryConfiguration)
         {
             _dbConnectionFactory = dbConnectionFactory;
             _repositoryConfiguration = repositoryConfiguration;
@@ -40,7 +41,8 @@ namespace OutboxService.Queue
         public async Task<OutboxItem[]> GetNextAsync(int batchCount, int recoverAfterMilliseconds)
         {
             using var connection = _dbConnectionFactory.GetConnection();
-            var query = string.Format(GetNextQuery, batchCount, _repositoryConfiguration.GetTableName());
+            var query = string.Format(GetNextQuery, batchCount, _repositoryConfiguration.GetTableName(),
+                recoverAfterMilliseconds);
             var result = await connection.QueryAsync<OutboxItem>(query);
             return result.ToArray();
         }

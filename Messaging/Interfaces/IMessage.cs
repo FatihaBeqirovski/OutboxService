@@ -1,4 +1,4 @@
-﻿namespace OutboxService.Messaging
+﻿namespace OutboxService.Messaging.Interfaces
 {
     public interface IMessage
     {

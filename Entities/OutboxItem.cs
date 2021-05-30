@@ -1,4 +1,4 @@
-﻿using OutboxService.Messaging;
+﻿using OutboxService.Messaging.Interfaces;
 using OutboxService.Utils.Enums;
 
 namespace OutboxService.Entities

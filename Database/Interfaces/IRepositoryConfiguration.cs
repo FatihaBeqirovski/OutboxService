@@ -1,4 +1,4 @@
-﻿namespace OutboxService.Database
+﻿namespace OutboxService.Database.Interfaces
 {
     public interface IRepositoryConfiguration
     {

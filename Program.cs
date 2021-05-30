@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using OutboxService.Daemon;
 using OutboxService.Database;
+using OutboxService.Database.Implementations;
+using OutboxService.Database.Interfaces;
 using OutboxService.Queue;
 
 namespace OutboxService
