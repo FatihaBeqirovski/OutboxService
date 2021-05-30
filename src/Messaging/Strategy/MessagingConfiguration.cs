@@ -10,7 +10,7 @@ namespace OutboxService.Messaging.Strategy
         public static readonly string RabbitMqUsernameKey = "RabbitMqUsername";
         public static readonly string RabbitMqPassKey = "RabbitMqPassword";
         private const int DefaultRabbitMqPort = 5672;
-        public static readonly string ConfluentBrokers = "ConfluentBrokers";
+        public static readonly string KafkaUrls = "KafkaUrls";
 
         private readonly IConfiguration _configuration;
 
@@ -57,12 +57,12 @@ namespace OutboxService.Messaging.Strategy
             return result;
         }
 
-        public string GetConfluentBrokers()
+        public string GetKafkaBrokers()
         {
-            var result = _configuration.GetValue<string>(ConfluentBrokers);
+            var result = _configuration.GetValue<string>(KafkaUrls);
             if (string.IsNullOrWhiteSpace(result))
             {
-                throw new MissingConfigurationException(ConfluentBrokers);
+                throw new MissingConfigurationException(KafkaUrls);
             }
 
             return result;

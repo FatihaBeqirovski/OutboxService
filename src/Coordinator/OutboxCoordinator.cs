@@ -2,9 +2,10 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using OutboxService.Dispatcher;
 using OutboxService.Queue;
 
-namespace OutboxService
+namespace OutboxService.Coordinator
 {
     public class OutboxCoordinator : IOutboxCoordinator
     {

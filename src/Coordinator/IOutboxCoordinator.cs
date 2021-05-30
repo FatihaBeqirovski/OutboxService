@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace OutboxService
+namespace OutboxService.Coordinator
 {
     public interface IOutboxCoordinator
     {
