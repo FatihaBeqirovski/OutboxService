@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace OutboxService.Database
+namespace OutboxService.Database.Interfaces
 {
     public interface IDbConnectionFactory
     {

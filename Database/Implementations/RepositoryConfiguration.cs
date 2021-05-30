@@ -1,7 +1,8 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
+using OutboxService.Database.Interfaces;
 
-namespace OutboxService.Database
+namespace OutboxService.Database.Implementations
 {
     public class RepositoryConfiguration : IRepositoryConfiguration
     {
