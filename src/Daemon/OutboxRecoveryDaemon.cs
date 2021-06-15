@@ -1,5 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using OutboxService.Dispatcher;
 using OutboxService.Queue;
 using OutboxService.Utils;
 

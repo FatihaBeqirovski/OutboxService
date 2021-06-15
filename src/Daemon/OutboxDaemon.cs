@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using OutboxService.Dispatcher;
 using OutboxService.Queue;
 using OutboxService.Utils;
 

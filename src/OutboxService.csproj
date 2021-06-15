@@ -23,8 +23,17 @@
 
     <ItemGroup>
         <None Update="appsettings.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Remove="OutboxService.Tests\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="OutboxService.Tests\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="OutboxService.Tests\**" />
     </ItemGroup>
     
 </Project>

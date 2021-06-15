@@ -5,9 +5,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using OutboxService.Daemon;
-using OutboxService.Database;
 using OutboxService.Database.Implementations;
 using OutboxService.Database.Interfaces;
+using OutboxService.Dispatcher;
+using OutboxService.Messaging.Strategy;
+using OutboxService.Messaging.Strategy.Implementations;
+using OutboxService.Messaging.Strategy.Interfaces;
 using OutboxService.Queue;
 
 namespace OutboxService
@@ -29,10 +32,17 @@ namespace OutboxService
                     services.AddHostedService<HealthCheckDaemon>();
                     services.AddHostedService<OutboxDaemon>();
                     services.AddHostedService<OutboxRecoveryDaemon>();
-                    
-                    services.AddTransient<IDbConnectionFactory, DbConnectionFactory>();
-                    services.AddTransient<ISqlPollingSource, SqlPollingSource>();
 
+                    services.AddTransient<IDbConnectionFactory, DbConnectionFactory>();
+                    services.AddTransient<IOutboxRepository, OutboxRepository>();
+                    services.AddTransient<ISqlPollingSource, SqlPollingSource>();
+                    services.AddTransient<ISqlRecoveryPollingSource, SqlRecoveryPollingSource>();
+                    services.AddTransient<IOutboxDispatcher, OutboxDispatcher>();
+
+                    services.AddSingleton<IMessageBrokerStrategy, MassTransitMessageBrokerStrategy>();
+                    services.AddSingleton<IMessageBrokerStrategy, KafkaMessageBrokerStrategy>();
+                    services.AddSingleton<MessagingConfiguration>();
+                    services.AddSingleton<IRepositoryConfiguration, RepositoryConfiguration>();
                 });
         }
 
