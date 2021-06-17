@@ -1,0 +1,23 @@
+name: ci
+on:
+  push:
+    branches:
+      - 'master'
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out code
+      - run: ls
+      - run: pwd
+      - uses: mr-smithers-excellent/docker-build-push@v5
+        name: Build & push Docker image
+        with:
+          image: trendyol/outbox-service
+          tags: v1, latest
+          registry: ghcr.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+          dockerfile: Dockerfile
+          addLatest: true
