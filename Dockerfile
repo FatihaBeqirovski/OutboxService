@@ -7,7 +7,7 @@ WORKDIR /workdir
 
 COPY . .
 
-RUN dotnet publish "OutboxService.csproj" -c Release -o /publish
+RUN dotnet publish "./src/OutboxService.csproj" -c Release -o /publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
 WORKDIR /publish
